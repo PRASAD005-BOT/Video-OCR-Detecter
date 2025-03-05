@@ -1,0 +1,17 @@
+services:
+  - name: flask-app
+    type: web
+    env: python
+    plan: free
+    region: oregon
+    buildCommand: |
+      # Build the Docker image
+      docker build -t my-flask-app .
+    startCommand: docker run -p 8000:8000 my-flask-app
+    envVars:
+      - key: GEMINI_API_KEY
+        value: "AIzaSyCrGKPhY0JzopMwyMc1nXAp3U-Xj5zKvHU"
+      - key: UPLOAD_FOLDER
+        value: "uploads"
+      - key: TESSERACT_PATH
+        value: "/app/tesseract-ocr/tesseract"
