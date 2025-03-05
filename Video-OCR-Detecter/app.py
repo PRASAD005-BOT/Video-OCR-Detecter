@@ -17,9 +17,12 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["MAX_CONTENT_LENGTH"] = 50 * 1024 * 1024  
 
 # Auto-detect Tesseract path
-tesseract_path = os.path.join(os.getcwd(), "tesseract-ocr", "tesseract")
+tesseract_path = shutil.which("tesseract")
 
-if not os.path.exists(tesseract_path):
+if not tesseract_path:
+    tesseract_path = os.getenv("TESSERACT_PATH", "/usr/bin/tesseract")
+
+if not tesseract_path or not os.path.exists(tesseract_path):
     raise FileNotFoundError("Tesseract-OCR not found on the system!")
 
 pytesseract.pytesseract.tesseract_cmd = tesseract_path
